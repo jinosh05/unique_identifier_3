@@ -1,4 +1,4 @@
-package com.example.unique_identifier_3_example
+package com.jinosh.unique_identifier_example
 
 import io.flutter.embedding.android.FlutterActivity
 

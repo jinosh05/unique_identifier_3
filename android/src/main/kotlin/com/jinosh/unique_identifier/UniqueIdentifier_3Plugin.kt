@@ -1,4 +1,4 @@
-package com.example.unique_identifier_3
+package com.jinosh.unique_identifier
 
 import androidx.annotation.NonNull
 

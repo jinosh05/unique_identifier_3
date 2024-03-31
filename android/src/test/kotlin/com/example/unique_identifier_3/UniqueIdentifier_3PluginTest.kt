@@ -1,4 +1,4 @@
-package com.example.unique_identifier_3
+package com.jinosh.unique_identifier
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
