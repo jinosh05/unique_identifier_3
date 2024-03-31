@@ -37,7 +37,7 @@ flutter:
     platforms:
       android:
         package: com.jinosh.unique_identifier
-        pluginClass: UniqueIdentifier_3Plugin
+        pluginClass: UniqueIdentifierPlugin
       ios:
         pluginClass: UniqueIdentifier_3Plugin
 
