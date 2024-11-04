@@ -8,12 +8,18 @@ public class SwiftUniqueIdentifierPlugin: NSObject, FlutterPlugin {
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
-  public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    if (call.method == "getUniqueIdentifier") {
-      let device = UIDevice.current
-      result(device.identifierForVendor?.uuidString)
-    } else {
-      result(FlutterMethodNotImplemented)
+public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+  if call.method == "getUniqueIdentifier" {
+    let userDefaults = UserDefaults.standard
+    var uniqueID = userDefaults.string(forKey: "custom_unique_identifier")
+    if uniqueID == nil {
+      uniqueID = UUID().uuidString
+      userDefaults.set(uniqueID, forKey: "custom_unique_identifier")
+      userDefaults.synchronize()
     }
+    result(uniqueID)
+  } else {
+    result(FlutterMethodNotImplemented)
   }
+}
 }
