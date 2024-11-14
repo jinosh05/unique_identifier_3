@@ -180,4 +180,4 @@ For more details, see the official [Android 8.0 Behavior Changes](https://develo
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md). 
+This project is licensed under the [MIT License](LICENSE). 
