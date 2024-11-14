@@ -1,5 +1,11 @@
 name: unique_identifier_3
-description: "A new Flutter plugin project."
+description: >
+  A Flutter plugin for retrieving a device's unique identifier across Android and iOS platforms.
+  On Android, this plugin accesses the `ANDROID_ID`, providing a unique ID scoped to the app's
+  signing key, user, and device combination. On iOS, it uses `identifierForVendor`, a unique ID
+  associated with the app's vendor. This plugin helps developers track devices in a secure
+  and privacy-compliant manner.
+
 version: 0.0.1
 homepage: https://github.com/jinosh05/unique_identifier_3
 
