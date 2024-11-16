@@ -1,6 +1,6 @@
 # Unique Identifier #
 
-[![pub package](https://img.shields.io/badge/pub-0.3.0-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
+[![pub package](https://img.shields.io/badge/pub-0.0.1-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
 
 
 A Flutter plugin to retrieve the `ANDROID_ID` for Android devices and `identifierForVendor` for iOS devices. This unique identifier allows you to track devices in a secure and platform-compliant way.
