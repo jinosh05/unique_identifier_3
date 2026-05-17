@@ -3,6 +3,14 @@
 [![pub package](https://img.shields.io/badge/pub-0.1.0-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+---
+
+### ❤️ Support This Project
+
+If this package saved you time or helped your project, consider buying me a coffee! Your support keeps me motivated to maintain and improve this plugin.
+
+<a href="https://razorpay.me/@devasundarjinosh"><img src="https://img.shields.io/badge/☕%20Donate-Support%20My%20Work-ff6900?style=for-the-badge&logo=razorpay&logoColor=white" alt="Donate" height="50"></a>
+
 A Flutter plugin for retrieving a device's unique identifier across Android, iOS, Web, macOS, Linux, and Windows platforms.
 
 | Platform | Method |
