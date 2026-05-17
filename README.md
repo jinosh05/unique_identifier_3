@@ -1,17 +1,30 @@
-# Unique Identifier #
+# Unique Identifier
 
 [![pub package](https://img.shields.io/badge/pub-0.0.1-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+A Flutter plugin for retrieving a device's unique identifier on Android and iOS platforms. On Android, this plugin accesses the `ANDROID_ID`, providing a unique ID scoped to the app's signing key, user, and device combination. On iOS, it uses `identifierForVendor`, a unique ID associated with the app's vendor. This plugin helps developers track devices in a secure and privacy-compliant manner.
 
-A Flutter plugin to retrieve the `ANDROID_ID` for Android devices and `identifierForVendor` for iOS devices. This unique identifier allows you to track devices in a secure and platform-compliant way.
+## Features
+
+- **Android**: Retrieves `ANDROID_ID` (64-bit hex string scoped to app-signing key, user, and device)
+- **iOS**: Retrieves `identifierForVendor` (IDFV unique per vendor)
+- Cross-platform support with a single API
+- Privacy-compliant device tracking
 
 ## Installation
 
-To add this package to your project, update the dependencies in your `pubspec.yaml` file:
+Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   unique_identifier_3: ^0.0.1
+```
+
+Then run:
+
+```bash
+flutter pub get
 ```
 
 ### Import the Package
@@ -22,12 +35,11 @@ import 'package:unique_identifier_3/unique_identifier_3.dart';
 
 ## Usage
 
-### Example Code
-
-The following example demonstrates how to retrieve a unique identifier for the device and display it in a Flutter app:
+### Basic Example
 
 ```dart
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:unique_identifier_3/unique_identifier_3.dart';
 
 class MyApp extends StatefulWidget {
@@ -44,7 +56,6 @@ class _MyAppState extends State<MyApp> {
     initUniqueIdentifier();
   }
 
-  // Method to initialize and retrieve the unique identifier
   Future<void> initUniqueIdentifier() async {
     String identifier;
     try {
@@ -68,7 +79,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Unique Identifier Example'),
         ),
         body: Center(
-          child: Text('Device ID: $_identifier\n'),
+          child: Text('Device ID: $_identifier'),
         ),
       ),
     );
@@ -76,48 +87,62 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 
+## Platform-Specific Behavior
+
+### Android
+
+- Uses `ANDROID_ID`, a 64-bit hexadecimal string
+- Unique to each combination of app-signing key, user, and device
+- Value may change after:
+  - Factory reset
+  - App-signing key change
+- Available on Android 8.0 and above
+
+### iOS
+
+- Uses `identifierForVendor` (IDFV)
+- Unique per vendor across all apps from the same vendor
+- Value may change if:
+  - All apps from the vendor are uninstalled and reinstalled
+  - Device is restored from backup
+
 ## iOS App Tracking Transparency
 
-If your app uses tracking on iOS, ensure that you request App Tracking Transparency (ATT) permission from users. The following code includes permission handling and a custom dialog prompt for iOS:
+If your app uses tracking on iOS, consider requesting App Tracking Transparency (ATT) permission. Below is an example using the `app_tracking_transparency` package:
 
 ```dart
 import 'package:flutter/material.dart';
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<void> initTrackingTransparency(BuildContext context) async {
   final status = await AppTrackingTransparency.trackingAuthorizationStatus;
 
   if (status == TrackingStatus.notDetermined || status == TrackingStatus.denied) {
-    // Show a custom dialog before the system's tracking dialog
     await showCustomTrackingDialog(
       context,
-      'We use tracking to enhance your experience and provide personalized content and ads. '
-      'Please consider enabling tracking for improved service.',
+      'We use tracking to enhance your experience and provide personalized content and ads.',
     );
 
-    // Delay to allow the dialog animation to complete
     await Future.delayed(const Duration(milliseconds: 1000));
 
-    // Request ATT permission
     final newStatus = await AppTrackingTransparency.requestTrackingAuthorization();
     if (newStatus == TrackingStatus.notDetermined || newStatus == TrackingStatus.denied) {
       await showSettingsDialog(
         context,
-        'To enhance your experience, please enable tracking in Settings > Privacy & Security > Tracking.',
+        'Please enable tracking in Settings > Privacy & Security > Tracking.',
       );
     }
   }
 
-  // Retrieve the advertising identifier
   final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
   if (uuid == '00000000-0000-0000-0000-000000000000') {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Unable to track your device")),
+      const SnackBar(content: Text("Unable to track your device")),
     );
   }
 }
 
-// Custom dialog to explain tracking
 Future<void> showCustomTrackingDialog(BuildContext context, String message) async {
   return showDialog<void>(
     context: context,
@@ -134,7 +159,6 @@ Future<void> showCustomTrackingDialog(BuildContext context, String message) asyn
   );
 }
 
-// Settings dialog to guide the user to enable tracking
 Future<void> showSettingsDialog(BuildContext context, String message) async {
   return showDialog<void>(
     context: context,
@@ -145,10 +169,8 @@ Future<void> showSettingsDialog(BuildContext context, String message) async {
         TextButton(
           onPressed: () async {
             const url = 'app-settings:';
-            if (await canLaunchUrlString(url)) {
-              await launchUrlString(url);
-            } else {
-              debugPrint('Could not launch $url');
+            if (await canLaunchUrl(Uri.parse(url))) {
+              await launchUrl(Uri.parse(url));
             }
             Navigator.pop(context);
           },
@@ -166,17 +188,8 @@ Future<void> showSettingsDialog(BuildContext context, String message) async {
 
 ## Bugs & Feature Requests
 
-If you encounter any issues or have feature requests, please [open an issue](https://github.com/jinosh05/unique_identifier_3/issues) on GitHub. Contributions through pull requests are also welcome!
-
-## Additional Information
-
-### Platform-Specific Behavior
-
-- **Android (8.0 and above)**: `ANDROID_ID` is a unique, 64-bit hexadecimal string associated with each combination of app-signing key, user, and device. The value may change after a factory reset or if the app-signing key changes.
-- **iOS**: The `identifierForVendor` (IDFV) is unique per vendor and can change if all apps from a vendor are uninstalled from a device and reinstalled.
-
-For more details, see the official [Android 8.0 Behavior Changes](https://developer.android.com/about/versions/oreo/android-8.0-changes) documentation.
+Please [open an issue](https://github.com/jinosh05/unique_identifier_3/issues) on GitHub for bugs or feature requests. Pull requests are welcome!
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE). 
+This project is licensed under the [MIT License](LICENSE).
