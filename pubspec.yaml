@@ -1,7 +1,7 @@
 name: unique_identifier_3
 description: A Flutter plugin for retrieving a device's unique identifier across Android, iOS, Web, macOS, Linux, and Windows platforms.
 
-version: 0.0.1
+version: 0.1.0
 homepage: https://github.com/jinosh05/unique_identifier_3
 
 environment:

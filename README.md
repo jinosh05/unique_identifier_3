@@ -1,6 +1,6 @@
 # Unique Identifier
 
-[![pub package](https://img.shields.io/badge/pub-0.0.1-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
+[![pub package](https://img.shields.io/badge/pub-0.1.0-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A Flutter plugin for retrieving a device's unique identifier across Android, iOS, Web, macOS, Linux, and Windows platforms.
@@ -18,8 +18,13 @@ A Flutter plugin for retrieving a device's unique identifier across Android, iOS
 
 - **Android**: Retrieves `ANDROID_ID` (64-bit hex string scoped to app-signing key, user, and device)
 - **iOS**: Retrieves `identifierForVendor` (IDFV unique per vendor)
+- **macOS**: Retrieves `IOPlatformUUID` via IOKit framework
+- **Linux**: Reads `/etc/machine-id`
+- **Windows**: Reads `MachineGuid` from registry
+- **Web**: Generates/persists UUID via `localStorage` with fingerprint fallback
 - Cross-platform support with a single API
 - Privacy-compliant device tracking
+- Swift Package Manager support on iOS
 
 ## Installation
 
@@ -27,7 +32,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  unique_identifier_3: ^0.0.1
+  unique_identifier_3: ^0.1.0
 ```
 
 Then run:
