@@ -13,13 +13,8 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"getUniqueIdentifier" isEqualToString:call.method]) {
-    NSString *uniqueID = [[NSUserDefaults standardUserDefaults] stringForKey:@"custom_unique_identifier"];
-    if (!uniqueID) {
-      uniqueID = [[NSUUID UUID] UUIDString];
-      [[NSUserDefaults standardUserDefaults] setObject:uniqueID forKey:@"custom_unique_identifier"];
-      [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    result(uniqueID);
+    NSString *identifierForVendor = [[UIDevice currentDevice] identifierForVendor].UUIDString;
+    result(identifierForVendor);
   } else {
     result(FlutterMethodNotImplemented);
   }

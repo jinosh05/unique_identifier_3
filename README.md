@@ -3,7 +3,16 @@
 [![pub package](https://img.shields.io/badge/pub-0.0.1-green.svg)](https://pub.dartlang.org/packages/unique_identifier_3)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A Flutter plugin for retrieving a device's unique identifier on Android and iOS platforms. On Android, this plugin accesses the `ANDROID_ID`, providing a unique ID scoped to the app's signing key, user, and device combination. On iOS, it uses `identifierForVendor`, a unique ID associated with the app's vendor. This plugin helps developers track devices in a secure and privacy-compliant manner.
+A Flutter plugin for retrieving a device's unique identifier across Android, iOS, Web, macOS, Linux, and Windows platforms.
+
+| Platform | Method |
+|----------|--------|
+| 🤖 **Android** | `ANDROID_ID` (scoped to app-signing key, user, and device) |
+| 🍎 **iOS** | `UIDevice.identifierForVendor` |
+| 💻 **macOS** | `IOPlatformUUID` via IOKit (uses `kIOMainPortDefault` on macOS 12+, falls back to `kIOMasterPortDefault` for macOS 11) |
+| 🐧 **Linux** | Reads `/etc/machine-id` |
+| 🪟 **Windows** | Reads registry value `MachineGuid` from `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography` |
+| 🌐 **Web** | Attempts to read UUID from `localStorage`. If missing/invalid, generates from browser fingerprint. Falls back to random UUID generation. Stores result in `localStorage` for persistence. |
 
 ## Features
 
@@ -96,7 +105,6 @@ class _MyAppState extends State<MyApp> {
 - Value may change after:
   - Factory reset
   - App-signing key change
-- Available on Android 8.0 and above
 
 ### iOS
 
@@ -104,7 +112,37 @@ class _MyAppState extends State<MyApp> {
 - Unique per vendor across all apps from the same vendor
 - Value may change if:
   - All apps from the vendor are uninstalled and reinstalled
-  - Device is restored from backup
+
+### macOS
+
+- Uses `IOPlatformUUID` via IOKit framework
+- Automatically uses `kIOMainPortDefault` on macOS 12+ (no deprecation warning)
+- Falls back to `kIOMasterPortDefault` for compatibility with macOS 11 and earlier
+
+### Linux
+
+- Reads `/etc/machine-id`
+- Returns the machine ID as stored by the system
+
+### Windows
+
+- Reads `MachineGuid` from registry key `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography`
+- Returns the system's unique machine identifier
+
+### Web
+
+- Attempts to read a UUID from `window.localStorage`
+- If the value is missing or invalid, it tries to generate one based on browser fingerprint
+- If fingerprinting fails, generates a new UUID using Dart code
+- The newly generated UUID is stored in `localStorage` for future reuse
+- Ensures the same UUID persists across reloads and sessions
+- Users can manually clear the UUID through browser storage settings
+
+## Notes
+
+- On iOS and Android, the UUID may change after uninstalling and reinstalling the app
+- macOS implementation avoids deprecated APIs on macOS 12+
+- On Web, the UUID persists across reloads and sessions but can be cleared by the user
 
 ## iOS App Tracking Transparency
 
