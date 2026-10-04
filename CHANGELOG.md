@@ -1,3 +1,13 @@
+## 0.1.1
+
+* Migrated iOS to latest Flutter plugin SDK (Swift Package Manager)
+* Renamed iOS `pluginClass` to `SwiftUniqueIdentifierPlugin`
+* Updated `unique_identifier_3.podspec`: iOS deployment target `12.0`, Swift `5.0`, `DEFINES_MODULE`, excluded `i386` simulator arch
+* Updated `Package.swift`: added `FlutterFramework` dependency and iOS `12.0` platform
+* Added `UniqueIdentifier_3Plugin` compatibility alias for older `GeneratedPluginRegistrant`
+* Migrated example iOS Runner (Swift `AppDelegate`, `Info.plist`, `Podfile`, Xcode project and scheme)
+* Added `analysis_options.yaml` with `flutter_lints`
+
 ## 0.1.0
 
 * Added support for **Web**, **macOS**, **Linux**, and **Windows** platforms
