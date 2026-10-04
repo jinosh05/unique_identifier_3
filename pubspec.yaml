@@ -29,7 +29,7 @@ flutter:
         package: com.jinosh.unique_identifier
         pluginClass: UniqueIdentifierPlugin
       ios:
-        pluginClass: UniqueIdentifier_3Plugin
+        pluginClass: SwiftUniqueIdentifierPlugin
       web:
         pluginClass: WebUniqueIdentifierPlugin
         fileName: src/web_unique_identifier.dart

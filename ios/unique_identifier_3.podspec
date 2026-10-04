@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'unique_identifier_3'
-  s.version          = '0.0.1'
+  s.version          = '0.1.0'
   s.summary          = 'A new Flutter plugin project.'
   s.description      = <<-DESC
 A new Flutter plugin project.
@@ -15,7 +15,7 @@ A new Flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.swift_version    = '4.0'
-
-  s.ios.deployment_target = '8.0'
+  s.platform = :ios, '12.0'
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
+  s.swift_version = '5.0'
 end

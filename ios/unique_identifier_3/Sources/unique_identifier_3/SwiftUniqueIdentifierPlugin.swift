@@ -17,3 +17,7 @@ public class SwiftUniqueIdentifierPlugin: NSObject, FlutterPlugin {
     }
   }
 }
+
+// Compatibility alias for older GeneratedPluginRegistrant that references UniqueIdentifier_3Plugin.
+// This ensures builds succeed during migration to Swift Package Manager.
+@objc public class UniqueIdentifier_3Plugin: SwiftUniqueIdentifierPlugin {}

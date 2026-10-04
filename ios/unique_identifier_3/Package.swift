@@ -9,15 +9,16 @@ let package = Package(
     products: [
         .library(name: "unique-identifier-3", targets: ["unique_identifier_3"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(name: "FlutterFramework", path: "../FlutterFramework")
+    ],
     targets: [
         .target(
             name: "unique_identifier_3",
-            dependencies: [],
-            path: "Sources/unique_identifier_3",
-            cSettings: [
-                .headerSearchPath("include")
-            ]
+            dependencies: [
+                .product(name: "FlutterFramework", package: "FlutterFramework")
+            ],
+            path: "Sources/unique_identifier_3"
         )
     ]
 )
